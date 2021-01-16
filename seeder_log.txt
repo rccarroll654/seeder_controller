@@ -1,0 +1,5 @@
+-- Keith Haynes Seeder Controller --
+
+Seeder Controller Startup...
+
+  Bottom HAT addr set to 0x60
