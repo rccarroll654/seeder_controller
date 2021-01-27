@@ -73,7 +73,7 @@ class gui_interface():
       self.freeze_controls()
       self.sc.log("\nCall to guiRunMotor\n")
       # Get parameters
-      motor_id = int(self.Mtr_string.get())
+      motor_id = int(self.Mtr_string.get().split()[1])
       steps = int(float(self.E_step_text.get()))
       direction = self.dir_string.get()
       speed = int(float(self.E_speed_text.get()))
@@ -92,7 +92,7 @@ class gui_interface():
       self.freeze_controls()
       self.sc.log("\nCall to guiSetRelay\n")
       # Get parameters
-      relay = int(float(self.relay_string.get()))
+      relay = int(float(self.relay_string.get().split()[2]))
       mode = self.mode_string.get()
       
       # Run command
@@ -184,12 +184,18 @@ class gui_interface():
     L_mtr["bg"] = "grey"
     Mtr_string = Tkinter.StringVar()
     self.Mtr_string = Mtr_string
-    Mtr_port = Tkinter.OptionMenu(self.top, self.Mtr_string, *tuple(self.sc.motor_id))
-    Mtr_port.config(width=6, bd=0)
+    motor_id = [
+        "Motor 1 (Conveyor)",
+        "Motor 2 (Hopper)",
+        "Motor 3 (Clean Tray)",
+        "Motor 4 (Seedhead)"
+    ]
+    Mtr_port = Tkinter.OptionMenu(self.top, self.Mtr_string, *tuple(motor_id))
+    #Mtr_port.config(width=6, bd=0)
     Mtr_port.grid(row=1,column=2,sticky=Tkinter.W)
     #OM_port["bg"] = "grey"
     self.Mtr_port = Mtr_port
-    self.Mtr_string.set(self.sc.motor_id[0])
+    self.Mtr_string.set(motor_id[0])
     sv = self.Mtr_string
 
     # Steps
@@ -315,9 +321,17 @@ class gui_interface():
     L_relay["bg"] = "grey"
     relay_string = Tkinter.StringVar()
     self.relay_string = relay_string
-    relay_list = self.sc.relay_list
+    relay_list = [
+        "Relay Channel 1 pin set to 14 (Dibbler)",
+        "Relay Channel 2 pin set to 15 (Needle Vacuum)",
+        "Relay Channel 3 pin set to 18 (Needle Air)",
+        "Relay Channel 4 pin set to 23 (Spare)",
+        "Relay Channel 5 pin set to 24 (Vibrate seed)",
+        "Relay Channel 6 pin set to 17 (Vibrate Hopper)",
+        "Relay Channel 7 pin set to 27 (Activate Vacuum)",
+        "Relay Channel 8 pin set to 22 (Hopper Auger)"]
     relay_port = Tkinter.OptionMenu(self.top, self.relay_string, *tuple(relay_list))
-    relay_port.config(width=6, bd=0)
+    #relay_port.config(width=6, bd=0)
     relay_port.grid(row=9,column=5,sticky=Tkinter.W)
     #OM_port["bg"] = "grey"
     self.relay_port = relay_port

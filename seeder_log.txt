@@ -1,5 +1,58 @@
--- Keith Haynes Seeder Controller --
 
-Seeder Controller Startup...
+Advance To Seeder
+Activate Vacuum
+  Relay 7 set Close
+  Setting speed of motor 1 to 160
+  Starting GPIO stepper worker: motor_id=1, numsteps=2000, direction=Forward
+  Finished GPIO stepper worker: motor_id=1
+  Starting GPIO stepper worker: motor_id=4, numsteps=170, direction=Forward
+  Finished GPIO stepper worker: motor_id=4
+  Relay 5 set Close
+  Relay 2 set Close
+  Relay 3 set Open
 
-  Bottom HAT addr set to 0x60
+Set Row 1
+  Starting GPIO stepper worker: motor_id=1, numsteps=182, direction=Forward
+  Finished GPIO stepper worker: motor_id=1
+Rotate To Tray
+  Relay 5 set Close
+  Relay 5 set Open
+  Setting speed of motor 4 to 180
+  Starting GPIO stepper worker: motor_id=4, numsteps=330, direction=Forward
+  Finished GPIO stepper worker: motor_id=4
+Release Seed
+  Relay 2 set Open
+  Relay 3 set Close
+  Relay 3 set Open
+  Setting speed of motor 4 to 180
+  Starting GPIO stepper worker: motor_id=4, numsteps=330, direction=Reverse
+  Finished GPIO stepper worker: motor_id=4
+  Relay 2 set Close
+
+... (skipping Rows 2 - 27)
+
+Set Row 28
+  Starting GPIO stepper worker: motor_id=1, numsteps=182, direction=Forward
+  Finished GPIO stepper worker: motor_id=1
+Rotate To Tray
+  Relay 5 set Close
+  Relay 5 set Open
+  Setting speed of motor 4 to 180
+  Starting GPIO stepper worker: motor_id=4, numsteps=330, direction=Forward
+  Finished GPIO stepper worker: motor_id=4
+Release Seed
+  Relay 2 set Open
+  Relay 3 set Close
+  Relay 3 set Open
+  Setting speed of motor 4 to 180
+  Starting GPIO stepper worker: motor_id=4, numsteps=330, direction=Reverse
+  Finished GPIO stepper worker: motor_id=4
+  Relay 2 set Close
+
+Release Motors
+
+Release Air Valves
+  Stop signal detected
+
+Set Row 29
+  Stop signal detected
