@@ -418,7 +418,7 @@ class SeederController():
         self.releaseAirValves()
         self.setRelay(1,mode="Close")
         self.log("\nPlease wait...")
-        sleep(1)
+        sleep(0.1)
         
     def fillTray(self, steps_m1_first=575, steps_m1=2850, steps_m2=8050):
         self.log("\nFill tray")
@@ -447,34 +447,34 @@ class SeederController():
     def setTray(self,steps_m1_fwd=1500,steps_m1_rvs=75):
         self.log("Set Tray")
         self.setRelay(1,mode="Close")
-        sleep(1)
-        self.runStepper(1,steps=steps_m1_fwd,direction="Forward",speed=50)
-        self.runStepper(1,steps=steps_m1_rvs,direction="Reverse",speed=50)
-        sleep(1)
+        sleep(0.1)
+        self.runStepper(1,steps=steps_m1_fwd,direction="Forward",speed=160)
+        self.runStepper(1,steps=steps_m1_rvs,direction="Reverse",speed=160)
+        sleep(0.1)
 
     def forwardDibbler(self,steps_m1=190):
         self.log("Forward Dibbler")
         self.setRelay(1,mode="Open")
-        sleep(1)
-        self.runStepper(1,steps=steps_m1,direction="Forward",speed=80)
+        sleep(0.1)
+        self.runStepper(1,steps=steps_m1,direction="Forward",speed=160)
 
-    def dippleRow(self, cnt, steps_odd=91, steps_even=91):
+    def dippleRow(self, cnt, steps_odd=182, steps_even=182):
         self.log("\nDibble Row {}".format(cnt))
         self.setRelay(1,mode="Close")
-        sleep(1.5)
+        sleep(0.05)
         self.setRelay(1,mode="Open")
-        sleep(1.5)
+        sleep(0.05)
         if cnt%2 > 0:
             steps = steps_odd  # Odd rows
         else:
             steps = steps_even  # Even rows
-        self.runStepper(1,steps=steps,direction="Forward",speed=80)
+        self.runStepper(1,steps=steps,direction="Forward",speed=160)
         
     def advanceToSeeder(self,steps_m1=403,steps_m4=219,dir_m4="Reverse"):
         self.log("\nAdvance To Seeder")
         self.log("Activate Vacuum")
         self.setRelay(7,mode="Close")        
-        self.runStepper(1, steps=steps_m1, direction="Forward", speed=100)
+        self.runStepper(1, steps=steps_m1, direction="Forward", speed=160)
         self.runStepper(4, steps=steps_m4, direction=dir_m4, style="Interleave")
                
     def activateVacuum(self):        
@@ -483,7 +483,7 @@ class SeederController():
         self.setRelay(3,mode="Open")
         sleep(1.0)
         
-    def setRow(self, cnt, steps_odd=91, steps_even=91):
+    def setRow(self, cnt, steps_odd=182, steps_even=182):
         self.log("\nSet Row {}".format(cnt))
         if cnt%2 > 0:
             steps = steps_odd  # Odd rows
@@ -494,35 +494,35 @@ class SeederController():
     def rotateToTray(self,steps_m4=486):
         self.log("Rotate To Tray")
         self.setRelay(5,mode="Close")
-        sleep(2.0)
+        sleep(0.5)
         self.setRelay(5,mode="Open")
-        self.runStepper(4, steps=steps_m4, direction="Forward", speed=80,
+        self.runStepper(4, steps=steps_m4, direction="Forward", speed=180,
                                                         style="Interleave")
 
     def releaseSeed(self,row,steps_nom=486,steps_last=372):
         self.log("Release Seed")
         self.setRelay(2,mode="Open")
-        sleep(1.0)
+        sleep(0.5)
         self.setRelay(3,mode="Close")
         sleep(0.05)
         self.setRelay(3,mode="Open")
         
         if row == self.num_rows:
             # Do not pick up another seed
-            self.runStepper(4, steps=steps_last, direction="Reverse", speed=80, 
+            self.runStepper(4, steps=steps_last, direction="Forward", speed=180, 
                                                     style="Interleave")
         else:
             # pick up another seed
-            self.runStepper(4, steps=steps_nom, direction="Reverse", speed=80, 
+            self.runStepper(4, steps=steps_nom, direction="Reverse", speed=180, 
                                                     style="Interleave")
         self.setRelay(2,mode="Close")
-        sleep(1.0)
+        sleep(0.5)
 
-    def returnToZero(self,steps_m1=4449):
+    def returnToZero(self,steps_m1=4000):
         self.setRelay(5,mode="Open")        
         self.log("\nReturn To Zero")
         self.releaseStepper(4)
-        self.runStepper(1, steps=steps_m1, direction="Forward", speed=100)
+        self.runStepper(1, steps=steps_m1, direction="Forward", speed=160)
         self.releaseStepper(3)
         self.releaseStepper(4)
         
@@ -538,22 +538,22 @@ class SeederController():
         self.num_rows = 29
         
         self.releaseAll()
-        sleep(10.0)
-        self.fillTray(steps_m1_first=575, steps_m1=50, steps_m2=50) 
+        sleep(1.0)
+        self.fillTray(steps_m1_first=5, steps_m1=5, steps_m2=5) 
         self.releaseDirtHopper()  
-        self.cleanTray(steps_m1=39,steps_m3=19)   
-        self.setTray(steps_m1_fwd=3400,steps_m1_rvs=75) 
-        self.forwardDibbler(steps_m1=191)
+        self.cleanTray(steps_m1=3,steps_m3=1)   
+        self.setTray(steps_m1_fwd=3,steps_m1_rvs=5) 
+        self.forwardDibbler(steps_m1=9)
 
         for row in range(self.num_rows):        
-            self.dippleRow(row+1,steps_odd=91, steps_even=91)
+            self.dippleRow(row+1,steps_odd=1, steps_even=1)
 
-        self.advanceToSeeder(steps_m1=403,steps_m4=170,dir_m4="Forward")
+        self.advanceToSeeder(steps_m1=2000,steps_m4=170,dir_m4="Forward")
         self.activateVacuum()
         
         for row in range(self.num_rows):
-            self.setRow(row+1, steps_odd=91, steps_even=91)
-            self.rotateToTray(steps_m4=488)   
+            self.setRow(row+1, steps_odd=182, steps_even=182)
+            self.rotateToTray(steps_m4=330)   
             self.releaseSeed(row+1,steps_nom=330,steps_last=160)
 
         self.returnToZero(steps_m1=2500)    
