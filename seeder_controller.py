@@ -491,12 +491,12 @@ class SeederController():
             steps = steps_even  # Even rows
         self.runStepper(1,steps=steps,direction="Forward")
         
-    def rotateToTray(self,steps_m4=486):
+    def rotateToTray(self,steps_m4=486, m4_dir="Forward"):
         self.log("Rotate To Tray")
-        self.setRelay(5,mode="Close")
-        sleep(0.5)
         self.setRelay(5,mode="Open")
-        self.runStepper(4, steps=steps_m4, direction="Forward", speed=180,
+        sleep(0.5)
+        self.setRelay(5,mode="Close")
+        self.runStepper(4, steps=steps_m4, direction=m4_dir, speed=180,
                                                         style="Interleave")
 
     def releaseSeed(self,row,steps_nom=486,steps_last=372):
@@ -509,11 +509,11 @@ class SeederController():
         
         if row == self.num_rows:
             # Do not pick up another seed
-            self.runStepper(4, steps=steps_last, direction="Forward", speed=180, 
+            self.runStepper(4, steps=steps_last, direction="Reverse", speed=180, 
                                                     style="Interleave")
         else:
             # pick up another seed
-            self.runStepper(4, steps=steps_nom, direction="Reverse", speed=180, 
+            self.runStepper(4, steps=steps_nom, direction="Forward", speed=180, 
                                                     style="Interleave")
         self.setRelay(2,mode="Close")
         sleep(0.5)
@@ -553,7 +553,7 @@ class SeederController():
         
         for row in range(self.num_rows):
             self.setRow(row+1, steps_odd=182, steps_even=182)
-            self.rotateToTray(steps_m4=330)   
+            self.rotateToTray(steps_m4=330, m4_dir="Reverse")   
             self.releaseSeed(row+1,steps_nom=330,steps_last=160)
 
         self.returnToZero(steps_m1=2500)    

@@ -50,9 +50,3 @@ Release Seed
   Relay 2 set Close
 
 Release Motors
-
-Release Air Valves
-  Stop signal detected
-
-Set Row 29
-  Stop signal detected
